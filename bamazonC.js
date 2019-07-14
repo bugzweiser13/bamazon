@@ -18,7 +18,7 @@ var connection = mysql.createConnection({
 
 connection.connect(function(err) {
     if (err) throw err;
-    console.log("connected as id " + connection.threadId);
+    console.log("Connected as Customer, ID#" + connection.threadId);
     userInput();
 });
 
@@ -32,7 +32,6 @@ function userInput() {
 
     ]).then(function(user) {
 
-        // If the user guesses the password...
         if (user.input === "Purchase Supplies") {
             displayProducts();
         } else {
@@ -42,7 +41,7 @@ function userInput() {
 };
 
 
-var displayProducts = function() {
+function displayProducts() {
     var query = "Select * FROM products";
     connection.query(query, function(err, res) {
         if (err) throw err;
@@ -92,6 +91,8 @@ function purchaseOrder(ID, amtNeeded) {
             console.log("Your total cost for " + amtNeeded + " " + res[0].product_name + " is $" + totalCost + ", Thank you!");
 
             connection.query("UPDATE products SET quantity = quantity - " + amtNeeded + " WHERE item_id = " + ID);
+            connection.query("UPDATE products SET product_sales =  " + totalCost + " WHERE item_id = " + ID);
+
         } else {
             console.log("Insufficient quantity, sorry we do not have enough " + res[0].product_name + " to complete your order.");
         };
