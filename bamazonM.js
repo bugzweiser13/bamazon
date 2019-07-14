@@ -183,19 +183,21 @@ function addProduct() {
         console.log(products);
         console.log(departments);
         addProducts(products);
-        // addDepartment(departments);
+        addDepartment(departments);
     });
 
 }
 
 //add to products table
 function addProducts(products) {
-    console.log(products.price);
+    console.log(products);
+    console.log(products.quantity1);
+
     var priceFix = parseFloat(products.price)
     var quantityFix = parseFloat(products.quantity)
     connection.query(
 
-        "INSERT INTO products, SET?", {
+        "INSERT INTO products SET?", {
             product_name: products.product_name,
             department_name: products.department_name,
             price: priceFix || 0,
@@ -204,6 +206,7 @@ function addProducts(products) {
         function(err) {
             if (err) throw err;
             console.log("Your Item Was Added Successfully!!!");
+
         }
     );
 }
@@ -213,10 +216,12 @@ function addDepartment(departments) {
     console.log(departments);
 
     connection.query(
-        "INSERT INTO departments SET?", +departments,
+        "INSERT INTO departments SET?", {
+            department_name: departments.department_name,
+            over_head_costs: departments.overhead_cost || 0,
+        },
         function(err) {
             if (err) throw err;
-            console.log("Your Item Was Added Successfully!!!");
             userInput();
         }
     );
