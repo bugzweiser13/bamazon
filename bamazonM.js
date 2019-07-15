@@ -176,20 +176,33 @@ function addProduct() {
         }
 
         var departments = {
-                department_name: input.catergory,
-                overhead_cost: input.price || 0,
-            }
-            // debugging
-            // console.log(products);
-            // console.log(departments);
-        addProducts(products);
-        addDepartment(departments);
+            department_name: input.catergory,
+            overhead_cost: input.price || 0,
+        }
+
+        if (input.catergory === "School Supply") {
+            var deptID = 1
+        }
+        if (input.catergory === "Electronics") {
+            var deptID = 2
+        }
+        if (input.catergory === "Books") {
+            var deptID = 3
+        }
+
+        // debugging
+        // console.log(products);
+        // console.log(departments);
+        console.log(deptID);
+
+        addProducts(products, deptID);
+        addDepartment(departments, deptID);
     });
 
 }
 
 //add to products table
-function addProducts(products) {
+function addProducts(products, deptID) {
     // debugging
     // console.log(products);
     // console.log(products.quantity1);
@@ -201,6 +214,7 @@ function addProducts(products) {
         "INSERT INTO products SET?", {
             product_name: products.product_name,
             department_name: products.department_name,
+            department_id: deptID,
             price: priceFix || 0,
             quantity: quantityFix || 0,
         },
@@ -213,7 +227,7 @@ function addProducts(products) {
 }
 
 //add to departments table
-function addDepartment(departments) {
+function addDepartment(departments, deptID) {
     // debugging
     // console.log(departments);
 
@@ -221,6 +235,7 @@ function addDepartment(departments) {
         "INSERT INTO departments SET?", {
             department_name: departments.department_name,
             over_head_costs: departments.overhead_cost || 0,
+            department_id: deptID,
         },
         function(err) {
             if (err) throw err;
