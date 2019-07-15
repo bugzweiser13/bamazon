@@ -174,19 +174,34 @@ function displaySelected1() {
             // debugging
             // console.log(res);
 
-            const arr = [];
+            const salePrice = [];
+            const prodSales = [];
+
+
+
             const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
             for (i = 0; i < res.length; i++) {
                 // console.log(res[i].price);
-                var data = res[i].price;
-                arr.push(data);
+                var saleData = res[i].price;
+                var prodData = res[i].product_sales;
+                prodSales.push(prodData);
+                salePrice.push(saleData);
 
             }
-            console.log(arr);
-            var out = (arr.reduce(reducer));
-            var totalPrice = out.toFixed(2);
-            console.log(totalPrice);
+            // totals calculations
+
+            // sale price
+            // console.log(salePrice);
+            var saleOut = (salePrice.reduce(reducer));
+            var totalPrice = saleOut.toFixed(2);
+            console.log("Total Price: " + totalPrice);
+
+            //product sales
+            // console.log(prodSales);
+            var prodOut = (prodSales.reduce(reducer));
+            var totalProd = prodOut.toFixed(2);
+            console.log("Total Sales: " + totalProd);
 
             var displayTable = new Table({
                 head: ["Department Name", "Overhead Cost", "Product Sales", "Total Profit"],
