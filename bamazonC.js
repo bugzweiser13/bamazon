@@ -27,12 +27,12 @@ function userInput() {
             name: "input",
             type: "list",
             message: "What Would You Like to Do?",
-            choices: ["Purchase Supplies", "Exit"]
+            choices: ["Purchase Item", "Exit"]
         }
 
     ]).then(function(user) {
 
-        if (user.input === "Purchase Supplies") {
+        if (user.input === "Purchase Item") {
             displayProducts();
         } else {
             connection.end();

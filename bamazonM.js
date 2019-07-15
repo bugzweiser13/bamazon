@@ -22,8 +22,7 @@ connection.connect(function(err) {
     userInput();
 });
 
-
-
+// user selection
 function userInput() {
     inquirer.prompt([{
             name: "input",
@@ -177,11 +176,12 @@ function addProduct() {
         }
 
         var departments = {
-            department_name: input.catergory,
-            overhead_cost: input.price || 0,
-        }
-        console.log(products);
-        console.log(departments);
+                department_name: input.catergory,
+                overhead_cost: input.price || 0,
+            }
+            // debugging
+            // console.log(products);
+            // console.log(departments);
         addProducts(products);
         addDepartment(departments);
     });
@@ -190,8 +190,9 @@ function addProduct() {
 
 //add to products table
 function addProducts(products) {
-    console.log(products);
-    console.log(products.quantity1);
+    // debugging
+    // console.log(products);
+    // console.log(products.quantity1);
 
     var priceFix = parseFloat(products.price)
     var quantityFix = parseFloat(products.quantity)
@@ -213,7 +214,8 @@ function addProducts(products) {
 
 //add to departments table
 function addDepartment(departments) {
-    console.log(departments);
+    // debugging
+    // console.log(departments);
 
     connection.query(
         "INSERT INTO departments SET?", {
