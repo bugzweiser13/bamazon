@@ -37,7 +37,7 @@ function userInput() {
                 displayAll();
                 break;
             case 'View Total Sales of an Individual Department':
-                displaySelected();
+                displaySelected1();
                 break;
             case 'Exit':
                 connection.end();
@@ -137,6 +137,90 @@ function displaySelected() {
                 );
             }
             console.log(displayTable.toString());
+            userInput();
+        });
+    });
+}
+
+function displaySelected1() {
+    inquirer.prompt([{
+
+            name: "dept",
+            type: "list",
+            message: "Please select a department.",
+            choices: ["School Supply", "Electronics", "Books"]
+        },
+
+    ]).then(function(input) {
+        // debugging
+        // console.log("You Selected " + input.dept + " department");
+        // console.log("Input is a: " + typeof input.dept);
+
+        if (input.dept === "School Supply") {
+            var choice = 1
+        }
+        if (input.dept === "Electronics") {
+            var choice = 2
+        }
+        if (input.dept === "Books") {
+            var choice = 3
+        };
+
+        // var query = "Select * FROM departments INNER JOIN products ON departments.item_id = products.item_id WHERE departments.department_id= " + choice;
+        var query = "SELECT * FROM departments INNER JOIN products ON departments.item_id = products.item_id WHERE departments.department_id= " + choice;
+
+        connection.query(query, function(err, res) {
+            if (err) throw err;
+            // debugging
+            // console.log(res);
+
+            const arr = [];
+            const reducer = (accumulator, currentValue) => accumulator + currentValue;
+
+            for (i = 0; i < res.length; i++) {
+                // console.log(res[i].price);
+                var data = res[i].price;
+                arr.push(data);
+
+            }
+            console.log(arr);
+            var out = (arr.reduce(reducer));
+            var totalPrice = out.toFixed(2);
+            console.log(totalPrice);
+
+            var displayTable = new Table({
+                head: ["Department Name", "Overhead Cost", "Product Sales", "Total Profit"],
+                colWidths: [16, 20, 15, 15, 15]
+            });
+            // for (var i = 0; i < res.length; i++) {
+            //     // debugging
+            //     // console.log(res[i].product_sales);
+
+            //     // var query2 = "SELECT SUM (" + res[i].over_head_costs + ") FROM departments WHERE departments.department_id= " + choice;
+
+            //     var val = res[i].over_head_costs;
+            //     var rawVal = val - (val * .25);
+            //     var realCost = rawVal.toFixed(2);
+
+            //     var profitRaw = val - realCost;
+            //     var salesRaw = res[i].product_sales;
+            //     var calc = profitRaw * salesRaw
+            //     var profit = calc.toFixed(2);
+
+            //     // var totalSales = connection.query(query2, function(err, res) {
+            //     //     if (err) throw err;
+            //     // });
+            //     // console.log(totalSales);
+
+            //     var totalProfit;
+            //     var totalOverhead;
+
+            // displayTable.push(
+            //     // [res[i].department_id, res[i].department_name, res[i].product_sales]
+            //     [res[i].item_id, totalPrice, realCost, res[i].product_sales, profit]
+            // );
+            // }
+            // console.log(displayTable.toString());
             userInput();
         });
     });
