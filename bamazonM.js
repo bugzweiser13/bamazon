@@ -46,7 +46,8 @@ function userInput() {
                 addProduct();
                 break;
             case 'Remove a Product':
-                removeProduct();
+                deleteDisplay();
+                // removeProduct();
                 break;
             case 'Exit':
                 connection.end();
@@ -193,8 +194,7 @@ function addProduct() {
         // debugging
         // console.log(products);
         // console.log(departments);
-        console.log(deptID);
-
+        // console.log(deptID);
         addProducts(products, deptID);
         addDepartment(departments, deptID);
     });
@@ -245,13 +245,32 @@ function addDepartment(departments, deptID) {
 }
 
 //remove an item from list
+
+function deleteDisplay() {
+    var query = "Select * FROM products";
+    connection.query(query, function(err, res) {
+        if (err) throw err;
+        var displayTable = new Table({
+            head: ["Item ID", "Product Name", "Catergory", "Price", "Quantity"],
+            colWidths: [10, 30, 30, 10, 10]
+        });
+        for (var i = 0; i < res.length; i++) {
+            displayTable.push(
+                [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].quantity]
+            );
+        }
+        console.log(displayTable.toString());
+        removeProduct();
+    });
+}
+
 function removeProduct() {
 
     inquirer.prompt([{
 
             type: "input",
             name: "id",
-            message: "What Product ID Would You Like to Remove?",
+            message: "What Item ID Would You Like to Remove?",
             validate: function(value) {
                 if (isNaN(value) === false) {
                     return true;
@@ -262,14 +281,16 @@ function removeProduct() {
 
     ]).then(function(inputRem) {
         var deleteRow = inputRem.id;
-
+        //debugging
         // console.log(input);
         deleteItem(deleteRow);
     });
 }
 
 function deleteItem(deleteRow) {
-    console.log(deleteRow);
+    // debugging
+    // console.log(deleteRow);
+
     connection.query(
         "DELETE FROM products WHERE item_id= " + deleteRow,
         function(err) {

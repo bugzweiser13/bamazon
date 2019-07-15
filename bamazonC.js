@@ -22,6 +22,8 @@ connection.connect(function(err) {
     userInput();
 });
 
+
+//user input
 function userInput() {
     inquirer.prompt([{
             name: "input",
@@ -40,7 +42,7 @@ function userInput() {
     });
 };
 
-
+//product display for purchase
 function displayProducts() {
     var query = "Select * FROM products";
     connection.query(query, function(err, res) {
@@ -59,6 +61,7 @@ function displayProducts() {
     });
 }
 
+//user purchase input
 function purchasePrompt() {
     inquirer.prompt([{
             name: "ID",
@@ -80,10 +83,12 @@ function purchasePrompt() {
     });
 };
 
+//purchase items and database update
 function purchaseOrder(ID, amtNeeded) {
     connection.query('Select * FROM products WHERE item_id = ' + ID, function(err, res) {
         if (err) { console.log(err) };
         if (amtNeeded <= res[0].quantity) {
+            //change output value to xx.xx
             var totalCostRaw = res[0].price * amtNeeded;
             var totalCost = totalCostRaw.toFixed(2);
 
