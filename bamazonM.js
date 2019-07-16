@@ -245,7 +245,6 @@ function addDepartment(departments, deptID) {
 }
 
 //remove an item from list
-
 function deleteDisplay() {
     var query = "Select * FROM products";
     connection.query(query, function(err, res) {
@@ -283,16 +282,33 @@ function removeProduct() {
         var deleteRow = inputRem.id;
         //debugging
         // console.log(input);
-        deleteItem(deleteRow);
+        deleteProd(deleteRow);
+        deleteDept(deleteRow);
     });
 }
 
-function deleteItem(deleteRow) {
+// delete item from products
+function deleteProd(deleteRow) {
     // debugging
     // console.log(deleteRow);
 
     connection.query(
         "DELETE FROM products WHERE item_id= " + deleteRow,
+        function(err) {
+            if (err) throw err;
+            // console.log("Your Item Was Deleted Successfully!!!");
+            // userInput();
+        }
+    );
+}
+
+// delete item from departments
+function deleteDept(deleteRow) {
+    // debugging
+    // console.log(deleteRow);
+
+    connection.query(
+        "DELETE FROM departments WHERE item_id= " + deleteRow,
         function(err) {
             if (err) throw err;
             console.log("Your Item Was Deleted Successfully!!!");
